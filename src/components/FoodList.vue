@@ -12,24 +12,45 @@
     <el-table
       v-loading="loading"
       :data="dataList"
-      height="250"
       border
       style="width: 100%">
       <el-table-column
         prop="createTime"
         label="日期"
-        width="180">
+        sortable>
       </el-table-column>
       <el-table-column
         prop="name"
         label="菜品"
-        width="180">
+        sortable>
       </el-table-column>
       <el-table-column
         prop="price"
-        label="价格">
+        label="价格"
+        sortable>
+      </el-table-column>
+      <el-table-column
+        label="操作">
+        <template slot-scope="scope">
+          <el-button type="primary" @click="handleEdit(scope.row)"  icon="el-icon-edit" size="small">编辑</el-button>
+          <el-button type="danger" @click="handleDelete(scope.row)"  icon="el-icon-delete" size="small">删除</el-button>
+          <!--<el-button @click="handleClick(scope.row)" type="text">查看</el-button>-->
+
+        </template>
       </el-table-column>
     </el-table>
+
+    <el-pagination
+      @size-change="handleSizeChange"
+      @current-change="handleCurrentChange"
+      :current-page="currentPage4"
+      :page-sizes="[100, 200, 300, 400]"
+      :page-size="100"
+      layout="total, sizes, prev, pager, next, jumper"
+      :total="400">
+    </el-pagination>
+
+
   </div>
 
 </template>
@@ -61,6 +82,14 @@
         console.log(err)
         that.loading = false
       })
+    },
+    methods: {
+      handleEdit: function (row) {
+        console.log(row._id)
+      },
+      handleDelete: function (row) {
+        console.log(row._id)
+      }
     }
   }
 </script>
