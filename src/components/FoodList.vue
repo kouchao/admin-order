@@ -44,10 +44,10 @@
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
       :current-page="currentPage4"
-      :page-sizes="[100, 200, 300, 400]"
-      :page-size="100"
+      :page-sizes="[10, 50, 100]"
+      :page-size="pageSize"
       layout="total, sizes, prev, pager, next, jumper"
-      :total="400">
+      :total="total">
     </el-pagination>
 
 
@@ -56,34 +56,46 @@
 </template>
 
 <script>
-  import $ from '../tool'
+  import $ from '../util/tool'
   export default {
     name: 'FoodList',
     data: function () {
       return {
         isCollapse: true,
         dataList: [],
-        loading: true
+        loading: true,
+        pageSize: 10,
+        total: 0
       }
     },
     created: function () {
-      var that = this
-      this.$ajax.get('http://localhost:8888/foods').then(function (res) {
-        console.log(res.data)
-        if (res.data.code === 0) {
-          that.loading = false
-          res.data.dataList.forEach(function (value, key) {
-            console.log(value)
-            value.createTime = $.date(value.createTime)
-          })
-          that.dataList = res.data.dataList
-        }
-      }).catch(function (err) {
-        console.log(err)
-        that.loading = false
+      this.getFoodList({
+        page: 0,
+        size: 10
       })
     },
     methods: {
+      getFoodList: function (data) {
+        var that = this
+        var url = $.baseUrl + '/foods'
+        this.$ajax.get(url, {
+          params: data
+        }).then(function (res) {
+          console.log(res.data)
+          if (res.data.code === 0) {
+            that.loading = false
+            res.data.dataList.forEach(function (value, key) {
+              console.log(value)
+              value.createTime = $.date(value.createTime)
+            })
+            that.dataList = res.data.dataList
+            that.total = res.data.total
+          }
+        }).catch(function (err) {
+          console.log(err)
+          that.loading = false
+        })
+      },
       handleEdit: function (row) {
         console.log(row._id)
       },

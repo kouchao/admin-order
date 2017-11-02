@@ -63,8 +63,7 @@
   }
 
   .el-main {
-    background-color: #E9EEF3;
-    color: #333;
+    background-color: #ffffff;
   }
 
   body > .el-container {
@@ -72,12 +71,21 @@
   }
 
   .el-breadcrumb {
-    padding: 20px 10px;
+    padding: 20px 15px;
     background: #fff;
+    border: 1px solid #e6ebf5;
+    border-bottom: 0;
   }
 
   ::-webkit-scrollbar {
     width: 0;
     opacity: 0;
+  }
+
+  .el-pagination {
+    padding: 15px;
+    border: 1px solid #e6ebf5;
+    border-top: 0;
+    text-align: right;
   }
 </style>
